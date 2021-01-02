@@ -22,17 +22,15 @@ class GamesManager @Inject() (cc: ControllerComponents)
     )(CreateData.apply)(CreateData.unapply))
 
 
-  val createGame: Action[AnyContent] = Action { implicit request =>
+  def createGame(): Action[AnyContent] = Action { implicit request =>
 
     val filledForm = gameForm.bindFromRequest
 
     filledForm.fold(
       badForm => BadRequest(views.html.createGame(badForm)(messagesApi.preferred(request), request)),
       formData => {
-        if (gameStore.addGame(formData.gameName))
-          Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
-        else
-          BadRequest(views.html.createGame(filledForm.withError("Game Name", "This game name is already in use."))(messagesApi.preferred(request), request))
+        gameStore.addGame(formData.gameName)
+        Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
       })
   }
 
@@ -41,7 +39,7 @@ class GamesManager @Inject() (cc: ControllerComponents)
       if(request.cookies.get("playerName").isDefined)
         Ok(views.html.simpleGame(gameStore.getGame(name).get))
       else
-        Redirect(routes.GamesManager.createGame()).withHeaders(("Game Name", name))
+        Redirect(routes.GamesManager.createGame())
     } else {
       Redirect(routes.HomeController.index())
     }
