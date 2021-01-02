@@ -1,0 +1,15 @@
+@import services.CreateData
+
+@import views.html.helper.CSRF
+@(webForm: Form[CreateData])(implicit messages: Messages, request: RequestHeader)
+
+@main("Create game") {
+
+    @helper.form(action = routes.GamesManager.createGame()) {
+        @CSRF.formField
+        @helper.inputText(webForm("Game Name"))
+        @helper.inputText(webForm("Player Name"))
+        <input type="submit">
+    }
+
+}

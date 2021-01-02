@@ -1,0 +1,10 @@
+@import model.TicTacToeGame
+@(ticTacToeGame: TicTacToeGame)
+
+@main("") {
+    <div id="gameView">
+    @{
+        Html(ticTacToeGame.toString)
+    }
+    </div>
+}
