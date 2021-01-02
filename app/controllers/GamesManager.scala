@@ -1,6 +1,6 @@
 package controllers
 
-import model.GameStore
+import model.{BasicTicTacToe, GameStore}
 import play.api.data.Form
 import play.api.data.Forms.{mapping, text}
 import play.api.data.validation.Constraints
@@ -42,6 +42,20 @@ class GamesManager @Inject() (cc: ControllerComponents)
         Ok(views.html.simpleGame(gameStore.getGame(name).get))
       else
         Redirect(routes.GamesManager.createGame()).withHeaders(("Game Name", name))
+    } else {
+      Redirect(routes.HomeController.index())
+    }
+  }
+
+  def getBoard(name: String) = Action {
+    if (gameStore.contains(name)) {
+      val game = gameStore.getGame(name).get
+
+      game match {
+        case g: BasicTicTacToe =>
+          Ok(views.html.SimpleGameBoard(g))
+      }
+
     } else {
       Redirect(routes.HomeController.index())
     }

@@ -1,0 +1,28 @@
+@import model.BasicTicTacToe
+
+@import model.Square
+@(game: BasicTicTacToe)
+
+@square(square: Square, row: Int, col: Int) = {
+    <td class="square" onclick="sendMove(@row, @col)">
+        @square.value
+    </td>
+}
+
+@row(rowArr: Array[Square], rowId: Int) = {
+    <tr>
+    @rowArr.zipWithIndex.map{ case(s,i) =>
+        @square(s, rowId, i)}
+    </tr>
+}
+
+@main(""){
+    <table>
+        <tbody>
+        @game.board.board.zipWithIndex.map{ case(x,i) =>
+            @row(x, i)
+        }
+
+        </tbody>
+    </table>
+}

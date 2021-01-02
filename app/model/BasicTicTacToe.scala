@@ -2,7 +2,7 @@ package model
 import model.Filled.{EMPTY, Filled}
 
 class BasicTicTacToe extends TicTacToeGame {
-  private val board = new Board(3)
+  val board = new Board(3)
   private var prev_symbol =  EMPTY
   private var listeners: List[GameListener] = List()
 

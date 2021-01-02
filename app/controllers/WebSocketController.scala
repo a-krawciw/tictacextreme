@@ -42,7 +42,6 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
       try {
         val parts = messageFormat.parse(msg)
         if (ticTacToeGame.isTurnValid(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)) {
-          println("valid move")
           ticTacToeGame.takeTurn(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)
         } else {
           println("Invalid move")
@@ -51,6 +50,9 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
       } catch {
         case e: java.text.ParseException => {
           e.printStackTrace()
+          out ! "Parse error"
+        }
+        case e: NumberFormatException => {
           out ! "Parse error"
         }
       }
@@ -62,5 +64,5 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
 
   override def onLose(): Unit = out ! "This game ends in a draw"
 
-  override def onUpdate(ticTacToeGame: TicTacToeGame): Unit = out ! ("" + ticTacToeGame)
+  override def onUpdate(ticTacToeGame: TicTacToeGame): Unit = out ! ""
 }

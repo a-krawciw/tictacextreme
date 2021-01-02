@@ -3,8 +3,7 @@
 
 @main("") {
     <div id="gameView">
-    @{
-        Html(ticTacToeGame.toString)
-    }
     </div>
+    <div id="serverMessage"></div>
+    <script src="@routes.Assets.versioned("javascripts/websocket.js")" type="text/javascript"></script>
 }
