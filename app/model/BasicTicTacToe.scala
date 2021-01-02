@@ -11,6 +11,8 @@ class BasicTicTacToe extends TicTacToeGame {
   override def winner: Option[Filled] = board.winner
 
   override def isTurnValid(player: Player, row: Int, column: Int): Boolean = {
+    if (hasWon || hasLost) return false
+
     if (!board.inBounds(row, column)) return false
 
     if (board.cell(row, column).isFilled) return false
