@@ -4,10 +4,14 @@
 
 .square {
     border: thin solid black;
-    width: 10rem;
-    height: 10rem;
+    width: 5rem;
+    height: 5rem;
     text-align: center;
     font-size: xxx-large;
+}
+
+.shaded {
+    background-color: lightgrey;
 }
 
 

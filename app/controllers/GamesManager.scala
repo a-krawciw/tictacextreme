@@ -1,6 +1,6 @@
 package controllers
 
-import model.{BasicTicTacToe, GameStore}
+import model.{BasicTicTacToe, ExtremeTicTacToe, GameStore}
 import play.api.data.Form
 import play.api.data.Forms.{mapping, text}
 import play.api.data.validation.Constraints
@@ -29,7 +29,7 @@ class GamesManager @Inject() (cc: ControllerComponents)
     filledForm.fold(
       badForm => BadRequest(views.html.createGame(badForm)(messagesApi.preferred(request), request)),
       formData => {
-        gameStore.addGame(formData.gameName)
+        gameStore.addGame(formData.gameName, new ExtremeTicTacToe(3))
         Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
       })
   }
@@ -52,6 +52,8 @@ class GamesManager @Inject() (cc: ControllerComponents)
       game match {
         case g: BasicTicTacToe =>
           Ok(views.html.SimpleGameBoard(g))
+        case g: ExtremeTicTacToe =>
+          Ok(views.html.ComplexGameBoard(g))
       }
 
     } else {

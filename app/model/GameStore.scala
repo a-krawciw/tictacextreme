@@ -9,10 +9,10 @@ class GameStore {
   private var gameMap: Map[String, TicTacToeGame] = Map()
   private var playerMap: Map[TicTacToeGame, (Player, Player)] = Map()
 
-  def addGame(name: String): Boolean = {
+  def addGame(name: String, game: TicTacToeGame): Boolean = {
     if (gameMap.contains(name))
       return false
-    gameMap = gameMap + (name -> new BasicTicTacToe)
+    gameMap = gameMap + (name -> game)
     true
   }
 

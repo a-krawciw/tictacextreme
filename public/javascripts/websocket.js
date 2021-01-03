@@ -29,3 +29,7 @@ function updateBoard() {
 function sendMove(row, column) {
     socket.send(row + "," + column)
 }
+
+function tearDown(){
+
+}

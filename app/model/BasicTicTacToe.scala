@@ -6,6 +6,9 @@ class BasicTicTacToe extends TicTacToeGame {
   private var prev_symbol =  EMPTY
   private var listeners: List[GameListener] = List()
 
+
+  override def hasLost: Boolean = !hasWon && board.isFull
+
   override def hasWon: Boolean = board.winner.isDefined
 
   override def winner: Option[Filled] = board.winner
@@ -33,9 +36,8 @@ class BasicTicTacToe extends TicTacToeGame {
 
   }
 
-  override def toString: String = board.board.map(row => row.mkString("[", ",", "]")).mkString("\n")
+  override def toString: String = board.toString
 
-  override def hasLost: Boolean = !hasWon && board.isFull
 
   override def registerListener(gameListener: GameListener): Unit = listeners = gameListener :: listeners
 }

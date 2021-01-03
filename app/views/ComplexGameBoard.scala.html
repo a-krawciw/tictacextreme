@@ -1,0 +1,35 @@
+@import model.ExtremeTicTacToe
+@import model.Square
+@(game: ExtremeTicTacToe)
+
+@shaded(row: Int, col: Int) = {
+    @{if ((row / 3 + col / 3) % 2 == 0) {
+        "shaded square"
+    } else {
+        "square"
+    }
+    }
+}
+
+@square(square: Square, row: Int, col: Int) = {
+    <td class='@shaded(row, col)' onclick="sendMove(@row, @col)">
+    @square.value
+    </td>
+}
+
+@row(rowArr: Array[Square], rowId: Int) = {
+    <tr>
+    @rowArr.zipWithIndex.map{ case(s,i) =>
+        @square(s, rowId, i)}
+    </tr>
+}
+
+@main(""){
+    <table>
+        <tbody>
+        @game.fullBoard.zipWithIndex.map{ case(x,i) =>
+            @row(x, i)
+        }
+        </tbody>
+    </table>
+}

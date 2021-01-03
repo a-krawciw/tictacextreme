@@ -49,6 +49,8 @@ class Board (dim: Int){
   }
 
   def isFull: Boolean = _board.flatten.forall(s => s.isFilled)
+
+  override def toString: String = _board.map(row => row.mkString("[", ",", "]")).mkString("\n")
 }
 
 
@@ -79,7 +81,7 @@ class Square(private var _value: Filled = Filled.EMPTY){
   def value: Filled = _value
   def isFilled: Boolean = value != Filled.EMPTY
   def value_= (newVal: Filled): Unit = {
-    if (isFilled)
+    if (isFilled && newVal != _value)
       throw new IllegalArgumentException("Square already filled")
     _value = newVal
   }
