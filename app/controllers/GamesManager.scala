@@ -35,7 +35,9 @@ class GamesManager @Inject() (cc: ControllerComponents)
   }
 
   def joinGame(name: String = "") = Action { implicit  request =>
-    val preFilledForm = gameForm.fill(CreateData(name, ""))
+    val pCookie = request.cookies.get("playerName")
+    val playerName = if (pCookie.isDefined) pCookie.get.value else ""
+    val preFilledForm = gameForm.fill(CreateData(name, playerName))
     Ok(views.html.createGame(preFilledForm)(messagesApi.preferred(request), request))
   }
 

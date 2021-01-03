@@ -37,16 +37,23 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
 
   private val messageFormat = new MessageFormat("{0},{1}")
 
-  override def postStop(): Unit = gameStore.removeGame(ticTacToeGame)
+  override def postStop(): Unit = {
+    gameStore.unRegisterPlayer(player, ticTacToeGame)
+    if (gameStore.playersRemaining(ticTacToeGame) == 0 ) {
+      gameStore.removeGame(ticTacToeGame)
+      println("game over")
+    }
+  }
 
   def receive = {
+    case msg: String if msg == "reset" =>
+      gameStore.removeGame(ticTacToeGame)
     case msg: String if msg != "ping" =>
         try {
           val parts = messageFormat.parse(msg)
           if (ticTacToeGame.isTurnValid(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)) {
             ticTacToeGame.takeTurn(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)
           } else {
-            println("Invalid move")
             out ! "Invalid move!"
           }
         } catch {
@@ -58,6 +65,7 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
             out ! "Parse error"
           }
         }
+
   }
 
   override def onWin(winner: Player): Unit = out ! (winner.name + " Won!")

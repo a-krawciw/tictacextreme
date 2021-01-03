@@ -4,15 +4,18 @@ import javax.inject.Singleton
 
 @Singleton
 class GameStore {
+
   def contains(name: String): Boolean = gameMap.contains(name)
 
   private var gameMap: Map[String, TicTacToeGame] = Map()
-  private var playerMap: Map[TicTacToeGame, (Player, Player)] = Map()
+  private var playerMap: Map[TicTacToeGame, PlayersSet] = Map()
+  private val EMPTY: Player = Player("", Filled.EMPTY)
 
   def addGame(name: String, game: TicTacToeGame): Boolean = {
     if (gameMap.contains(name))
       return false
     gameMap = gameMap + (name -> game)
+    playerMap = playerMap + (game -> new PlayersSet())
     true
   }
 
@@ -22,23 +25,42 @@ class GameStore {
 
   def registerPlayer(playerName: String, ticTacToeGame: TicTacToeGame): Player =
     if (playerMap.contains(ticTacToeGame)) {
-      if(playerMap(ticTacToeGame)._2.symbol == Filled.EMPTY){
-        val player2 = new Player(playerName, Filled.O)
-        val player1 = playerMap(ticTacToeGame)._1
-        playerMap = playerMap + (ticTacToeGame -> (player1, player2))
-        return player2
-      }
-      new Player("", Filled.EMPTY)
+      val players = playerMap(ticTacToeGame)
+      players.addPlayer(playerName)
     } else {
-      val player1 = new Player(playerName, Filled.X)
-      val player2 = new Player("", Filled.EMPTY)
-      playerMap = playerMap + (ticTacToeGame -> (player1, player2))
-      player1
+      EMPTY
     }
 
+  def unRegisterPlayer(player: Player, ticTacToeGame: TicTacToeGame): Unit =
+    if(playerMap.contains(ticTacToeGame)) {
+      playerMap(ticTacToeGame).removePlayer(player)
+    }
+
+  def playersRemaining(ticTacToeGame: TicTacToeGame): Int = playerMap.getOrElse(ticTacToeGame, new PlayersSet()).count
+
   def removeGame(gameName: String) = {
-    gameMap = gameMap.filterKeys(name => name == gameName)
+    gameMap = gameMap.-(gameName)
   }
 
-  def removeGame(game: TicTacToeGame) = gameMap = gameMap.filter(tuple1 => game == tuple1._2)
+  def removeGame(game: TicTacToeGame) = gameMap = gameMap.filter(tuple1 => game != tuple1._2)
+
+  private class PlayersSet(var x: Player = EMPTY, var o: Player = EMPTY){
+    def removePlayer(player: Player): Unit = {
+      if (x == player) x = EMPTY
+      if (o == player) o = EMPTY
+    }
+
+    def addPlayer(playerName: String): Player =
+      if (x == EMPTY) {
+        x = Player(playerName, Filled.X)
+        x
+      } else if (o == EMPTY) {
+        o = Player(playerName, Filled.O)
+        o
+      } else
+        Player(playerName, Filled.EMPTY)
+
+    implicit def bool2int(b:Boolean) = if (b) 1 else 0
+    def count: Int = ((x != EMPTY):Int) + (o != EMPTY):Int
+  }
 }
