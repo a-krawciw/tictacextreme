@@ -5,6 +5,7 @@ const socket = new WebSocket("ws://"+window.location.host+window.location.pathna
 socket.addEventListener('open', function (event) {
     updateBoard()
     console.log("Connected to websocket")
+    setInterval(sendPing, 5)
 });
 
 // Listen for messages
@@ -13,6 +14,10 @@ socket.addEventListener('message', function (event) {
     document.getElementById("serverMessage").innerText = event.data
     console.log('Message from server ', event.data);
 });
+
+function sendPing(){
+    socket.send("ping")
+}
 
 function updateBoard() {
     var xhttp = new XMLHttpRequest();

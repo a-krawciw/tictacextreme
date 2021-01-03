@@ -41,21 +41,23 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
 
   def receive = {
     case msg: String =>
-      try {
-        val parts = messageFormat.parse(msg)
-        if (ticTacToeGame.isTurnValid(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)) {
-          ticTacToeGame.takeTurn(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)
-        } else {
-          println("Invalid move")
-          out ! "Invalid move!"
-        }
-      } catch {
-        case e: java.text.ParseException => {
-          e.printStackTrace()
-          out ! "Parse error"
-        }
-        case e: NumberFormatException => {
-          out ! "Parse error"
+      if (msg != "ping") {
+        try {
+          val parts = messageFormat.parse(msg)
+          if (ticTacToeGame.isTurnValid(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)) {
+            ticTacToeGame.takeTurn(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)
+          } else {
+            println("Invalid move")
+            out ! "Invalid move!"
+          }
+        } catch {
+          case e: java.text.ParseException => {
+            e.printStackTrace()
+            out ! "Parse error"
+          }
+          case _: NumberFormatException => {
+            out ! "Parse error"
+          }
         }
       }
 

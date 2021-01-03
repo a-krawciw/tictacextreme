@@ -3,7 +3,7 @@ import model.Filled.{EMPTY, Filled}
 
 class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
   val board = new Board(dim)
-  private val innerBoards = Array.tabulate(dim, dim)((_, _) => new Board(dim))
+  val innerBoards = Array.tabulate(dim, dim)((_, _) => new Board(dim))
   private var listeners: List[GameListener] = List()
   private var prev_symbol: Filled = EMPTY
   private val START = (-1, -1)
