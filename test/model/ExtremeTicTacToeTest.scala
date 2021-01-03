@@ -86,5 +86,27 @@ class ExtremeTicTacToeTest extends AnyFlatSpec {
 
   }
 
+  "A subgame" should "retain the same winner if there are two valid wins" in {
+    val game = new ExtremeTicTacToe(3)
+
+    game.takeTurn(po, 0, 0)
+    game.takeTurn(px, 1, 1)
+    game.takeTurn(po, 3, 3)
+    game.takeTurn(px, 0, 1)
+    game.takeTurn(po, 0, 3)
+    game.takeTurn(px, 2, 1)
+
+    game.innerBoards(0)(0).winner should contain (px.symbol)
+    game.board.cell(0, 0).value should equal (px.symbol)
+
+    game.takeTurn(po, 8, 4)
+    game.takeTurn(px, 6, 3)
+    game.takeTurn(po, 1, 0)
+    game.takeTurn(px, 3, 0)
+    game.takeTurn(po, 2, 0)
+
+    game.board.cell(0, 0).value should equal (px.symbol)
+  }
+
 
 }

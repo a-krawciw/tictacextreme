@@ -43,8 +43,10 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
     if (!isTurnValid(player, row, column)) throw new IllegalArgumentException("Invalid move")
 
     innerBoards(outer_row)(outer_col).cell(inner_row, inner_col).value = player.symbol
-    if (innerBoards(outer_row)(outer_col).winner.isDefined)
+
+    if (innerBoards(outer_row)(outer_col).winner.isDefined && !board.cell(outer_row, outer_col).isFilled)
       board.cell(outer_row, outer_col).value = innerBoards(outer_row)(outer_col).winner.get
+
     prev_loc = (inner_row, inner_col)
     prev_symbol = player.symbol
     listeners.foreach(listener => {

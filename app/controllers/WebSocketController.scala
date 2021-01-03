@@ -40,8 +40,7 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
   override def postStop(): Unit = gameStore.removeGame(ticTacToeGame)
 
   def receive = {
-    case msg: String =>
-      if (msg != "ping") {
+    case msg: String if msg != "ping" =>
         try {
           val parts = messageFormat.parse(msg)
           if (ticTacToeGame.isTurnValid(player, parts(0).asInstanceOf[String].toInt, parts(1).asInstanceOf[String].toInt)) {
@@ -59,9 +58,6 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
             out ! "Parse error"
           }
         }
-      }
-
-
   }
 
   override def onWin(winner: Player): Unit = out ! (winner.name + " Won!")
