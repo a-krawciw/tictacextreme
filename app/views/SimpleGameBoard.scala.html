@@ -16,13 +16,11 @@
     </tr>
 }
 
-@main(""){
-    <table>
-        <tbody>
-        @game.board.board.zipWithIndex.map{ case(x,i) =>
-            @row(x, i)
-        }
+<table>
+    <tbody>
+    @game.board.board.zipWithIndex.map{ case(x,i) =>
+        @row(x, i)
+    }
 
-        </tbody>
-    </table>
-}
+    </tbody>
+</table>

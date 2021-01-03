@@ -2,6 +2,7 @@ package model
 import model.Filled.{EMPTY, Filled}
 
 class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
+
   val board = new Board(dim)
   val innerBoards = Array.tabulate(dim, dim)((_, _) => new Board(dim))
   private var listeners: List[GameListener] = List()
@@ -62,6 +63,12 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
   }
 
   def isSquareValid(row: Int, col: Int): Boolean = prev_loc == START || (row/dim, col/dim) == prev_loc
+
+  def isSquareClaimed(row: Int, col: Int): Boolean = board.cell(row / dim, col / dim).isFilled
+
+  def squareClaimant(row: Int, col: Int): String = board.cell(row / dim, col / dim).value.toString
+
+  def isNextPlayer(player: Player): Boolean = prev_symbol != player.symbol || player.symbol == Filled.EMPTY
 
   override def registerListener(gameListener: GameListener): Unit = listeners = gameListener :: listeners
 

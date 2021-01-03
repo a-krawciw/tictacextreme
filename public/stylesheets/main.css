@@ -18,7 +18,15 @@
     background-color: lightgrey;
 }
 
-#serverMessage{
+.wonX {
+    background-color: lightcoral;
+}
+
+.wonO {
+    background-color: lightblue;
+}
+
+.bigInfo{
     font-size: large;
 }
 

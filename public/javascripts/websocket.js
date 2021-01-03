@@ -12,7 +12,6 @@ socket.addEventListener('open', function (event) {
 socket.addEventListener('message', function (event) {
     updateBoard()
     document.getElementById("serverMessage").innerText = event.data
-    console.log('Message from server ', event.data);
 });
 
 function sendPing(){

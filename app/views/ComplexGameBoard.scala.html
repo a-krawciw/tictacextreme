@@ -1,21 +1,19 @@
-@import model.ExtremeTicTacToe
-@import model.Square
+@import model.{ExtremeTicTacToe, Square}
 @import model.GameStore
-@(game: ExtremeTicTacToe)
+@(game: ExtremeTicTacToe)(implicit gameStore: GameStore)
 
 @shaded(row: Int, col: Int) = {
-    @{if ((row / game.dim + col / game.dim) % 2 == 0) {
-        if (game.isSquareValid(row, col))
-            "valid square"
-        else
-            "shaded square"
-    } else {
-        if (game.isSquareValid(row, col))
-            "valid square"
-        else
-            "square"
+@{
+    var classText = new StringBuilder("square ")
+    if(game.isSquareValid(row, col))
+        classText.append(" valid")
+    else if (game.isSquareClaimed(row, col))
+        classText.append(" won" + game.squareClaimant(row, col))
+    else if ((row / game.dim + col / game.dim) % 2 == 0) {
+        classText.append(" shaded")
     }
-    }
+    classText.toString
+}
 }
 
 @square(square: Square, row: Int, col: Int) = {
@@ -26,17 +24,36 @@
 
 @row(rowArr: Array[Square], rowId: Int) = {
     <tr>
-    @rowArr.zipWithIndex.map{ case(s,i) =>
-        @square(s, rowId, i)}
+    @rowArr.zipWithIndex.map { case (s, i) =>
+        @square(s, rowId, i)
+    }
     </tr>
 }
 
-@main(""){
-    <table>
-        <tbody>
-        @game.fullBoard.zipWithIndex.map{ case(x,i) =>
-            @row(x, i)
-        }
-        </tbody>
-    </table>
-}
+    <div class="bigInfo" id="players">
+        @gameStore.getPlayers(game).x
+        <br>
+        @gameStore.getPlayers(game).o
+    </div>
+
+    <hr>
+<div class="bigInfo" id="turnInfo">
+    @{
+        val gs = gameStore.getPlayers(game)
+        if(game.isNextPlayer(gs.x) && game.isNextPlayer(gs.o)){
+            "Press any square to begin"
+        } else if(game.isNextPlayer(gs.x))
+            "It is " + gs.x.name + "'s turn"
+        else
+            "It is " + gs.o.name + "'s turn"
+    }
+</div>
+
+
+<table>
+    <tbody>
+    @game.fullBoard.zipWithIndex.map { case (x, i) =>
+        @row(x, i)
+    }
+    </tbody>
+</table>
