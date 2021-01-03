@@ -5,6 +5,7 @@
 
 @main("Create game") {
 
+    <section class="centered">
     <div class="card">
     @helper.form(action = routes.GamesManager.createGame()) {
         @CSRF.formField
@@ -13,5 +14,5 @@
         <input type="submit">
     }
     </div>
-
+    </section>
 }

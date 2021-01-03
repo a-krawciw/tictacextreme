@@ -2,9 +2,14 @@
 @(ticTacToeGame: TicTacToeGame)
 
 @main("") {
-    <div id="gameView">
-    </div>
-    <div class="bigInfo" id="serverMessage"></div>
-    <a href="@routes.HomeController.index()">Start a new game</a>
+    <section class="container">
+        <span class="verticalFlow card">
+            <span id="gameView">
+            </span>
+        <span class="bigInfo centered" id="serverMessage"></span>
+        </span>
+
+    @instruction(ticTacToeGame)
+    </section>
     <script src="@routes.Assets.versioned("javascripts/websocket.js")" type="text/javascript"></script>
 }

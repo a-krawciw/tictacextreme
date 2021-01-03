@@ -29,7 +29,7 @@ class GamesManager @Inject() (cc: ControllerComponents)
     filledForm.fold(
       badForm => BadRequest(views.html.createGame(badForm)(messagesApi.preferred(request), request)),
       formData => {
-        gameStore.addGame(formData.gameName, new ExtremeTicTacToe(3))
+        gameStore.addGame(formData.gameName, new BasicTicTacToe(3))
         Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
       })
   }

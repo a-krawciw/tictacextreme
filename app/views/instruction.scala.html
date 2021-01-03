@@ -1,0 +1,42 @@
+@import model.TicTacToeGame
+@import model.BasicTicTacToe
+@import model.ExtremeTicTacToe
+@(ticTacToeGame: TicTacToeGame)
+
+@basic() = {
+    <h1 class="green">
+        Welcome to Basic Tic Tac Toe.
+    </h1>
+    <p>
+        Any player may begin the game by clicking a square.
+        You win the game if you have three of your symbol in a row,
+        including on a diagonal.
+    </p>
+}
+
+@extreme() = {
+    <h1 class="green">
+        Welcome to Extreme Tic Tac Toe.
+    </h1>
+    <p>
+        Any player may begin the game by clicking a square.
+        The game is modelled as an nxn grid of nxn tic tac toe games.
+        You win the game if you win the macro tic tac toe board created by the smaller ones.
+        <br>
+        As a bonus complexity, the square you choose within a small game board sends you opponent to
+        that same square on the macro game board. The green squares show which cells are valid choices for a move.
+        Red cells show an inner game claimed by X and blue cells show an inner game claimed by O. Only the first person
+        to claim an inner game gets credit even if there is more than one valid move by the end of the game.
+    </p>
+}
+
+    <span id="instructions">
+@{
+ticTacToeGame match {
+    case _: BasicTicTacToe => basic()
+    case _: ExtremeTicTacToe => extreme()
+}
+}
+
+        <a href="@routes.HomeController.index()">Start a new game</a>
+    </span>
