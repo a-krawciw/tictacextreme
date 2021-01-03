@@ -28,14 +28,16 @@ class WebSocketController @Inject()(cc: ControllerComponents)
 import akka.actor._
 
 object MyWebSocketActor {
-  def props(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Player) = Props(new MyWebSocketActor(out, ticTacToeGame, player))
+  def props(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Player)(implicit gameStore: GameStore) = Props(new MyWebSocketActor(out, ticTacToeGame, player))
 }
 
 
-class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Player) extends Actor with GameListener {
+class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Player)(implicit gameStore: GameStore) extends Actor with GameListener {
   ticTacToeGame.registerListener(this)
 
   private val messageFormat = new MessageFormat("{0},{1}")
+
+  override def postStop(): Unit = gameStore.removeGame(ticTacToeGame)
 
   def receive = {
     case msg: String =>

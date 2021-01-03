@@ -10,6 +10,10 @@
     font-size: xxx-large;
 }
 
+.valid {
+    background-color: #80c846;
+}
+
 .shaded {
     background-color: lightgrey;
 }

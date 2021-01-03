@@ -35,4 +35,10 @@ class GameStore {
       playerMap = playerMap + (ticTacToeGame -> (player1, player2))
       player1
     }
+
+  def removeGame(gameName: String) = {
+    gameMap = gameMap.filterKeys(name => name == gameName)
+  }
+
+  def removeGame(game: TicTacToeGame) = gameMap = gameMap.filter(tuple1 => game == tuple1._2)
 }

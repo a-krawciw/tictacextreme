@@ -3,10 +3,16 @@
 @(game: ExtremeTicTacToe)
 
 @shaded(row: Int, col: Int) = {
-    @{if ((row / 3 + col / 3) % 2 == 0) {
-        "shaded square"
+    @{if ((row / game.dim + col / game.dim) % 2 == 0) {
+        if (game.isSquareValid(row, col))
+            "valid square"
+        else
+            "shaded square"
     } else {
-        "square"
+        if (game.isSquareValid(row, col))
+            "valid square"
+        else
+            "square"
     }
     }
 }
