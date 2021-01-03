@@ -5,7 +5,7 @@ const socket = new WebSocket("ws://"+window.location.host+window.location.pathna
 socket.addEventListener('open', function (event) {
     updateBoard()
     console.log("Connected to websocket")
-    setInterval(sendPing, 5)
+    setInterval(sendPing, 100)
 });
 
 // Listen for messages
