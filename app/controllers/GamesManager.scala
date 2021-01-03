@@ -29,9 +29,14 @@ class GamesManager @Inject() (cc: ControllerComponents)
     filledForm.fold(
       badForm => BadRequest(views.html.createGame(badForm)(messagesApi.preferred(request), request)),
       formData => {
-        gameStore.addGame(formData.gameName, new ExtremeTicTacToe(3))
+        gameStore.addGame(formData.gameName, new BasicTicTacToe(3))
         Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
       })
+  }
+
+  def joinGame(name: String = "") = Action { implicit  request =>
+    val preFilledForm = gameForm.fill(CreateData(name, ""))
+    Ok(views.html.createGame(preFilledForm)(messagesApi.preferred(request), request))
   }
 
   def showGame(name: String) = Action { implicit request =>
@@ -39,7 +44,7 @@ class GamesManager @Inject() (cc: ControllerComponents)
       if(request.cookies.get("playerName").isDefined)
         Ok(views.html.simpleGame(gameStore.getGame(name).get))
       else
-        Redirect(routes.GamesManager.createGame())
+        Redirect(routes.GamesManager.joinGame(name))
     } else {
       Redirect(routes.HomeController.index())
     }

@@ -5,11 +5,13 @@
 
 @main("Create game") {
 
+    <div class="card">
     @helper.form(action = routes.GamesManager.createGame()) {
         @CSRF.formField
         @helper.inputText(webForm("Game Name"))
         @helper.inputText(webForm("Player Name"))
         <input type="submit">
     }
+    </div>
 
 }
