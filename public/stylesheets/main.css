@@ -46,7 +46,7 @@ table {
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 3rem;
+    padding: 1.5rem 3rem 3rem;
     margin: 10px;
 }
 
@@ -72,6 +72,13 @@ h1 {
 
 #instructions{
     width: 30%;
+}
+
+#players {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 1rem;
 }
 
 a {

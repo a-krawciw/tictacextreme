@@ -3,13 +3,13 @@
 
 @main("") {
     <section class="container">
+        @instruction(ticTacToeGame)
         <span class="verticalFlow card">
+            <span class="bigInfo centered" id="serverMessage"></span>
             <span id="gameView">
             </span>
-        <span class="bigInfo centered" id="serverMessage"></span>
         </span>
 
-    @instruction(ticTacToeGame)
     </section>
     <script src="@routes.Assets.versioned("javascripts/websocket.js")" type="text/javascript"></script>
 }
