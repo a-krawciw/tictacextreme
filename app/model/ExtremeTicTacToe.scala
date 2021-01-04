@@ -48,7 +48,7 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
     if (innerBoards(outer_row)(outer_col).winner.isDefined && !board.cell(outer_row, outer_col).isFilled)
       board.cell(outer_row, outer_col).value = innerBoards(outer_row)(outer_col).winner.get
 
-    prev_loc = (inner_row, inner_col)
+    prev_loc = if (board.cell(inner_row, inner_col).isFilled) START else (inner_row, inner_col)
     prev_symbol = player.symbol
     listeners.foreach(listener => {
       listener.onUpdate(this)

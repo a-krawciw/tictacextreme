@@ -32,7 +32,8 @@
 
     <div class="bigInfo" id="players">
         <span>
-        @gameStore.getPlayers(game).x
+        @gameStore.getPlayers(game).x.name
+             is playing as X
         </span>
         <span>
         @{
@@ -46,7 +47,8 @@
         }
         </span>
         <span>
-        @gameStore.getPlayers(game).o
+        @gameStore.getPlayers(game).o.name
+            is playing as O
         </span>
     </div>
 

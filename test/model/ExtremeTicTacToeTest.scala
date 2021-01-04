@@ -108,5 +108,31 @@ class ExtremeTicTacToeTest extends AnyFlatSpec {
     game.board.cell(0, 0).value should equal (px.symbol)
   }
 
+  "A game with a filled subgame" should "allow the next move to be anywhere on the board"  in {
+    val game = new ExtremeTicTacToe(3)
+
+    game.takeTurn(px, 0, 0)
+    game.takeTurn(po, 0, 1)
+    game.takeTurn(px, 0, 3)
+    game.takeTurn(po, 0, 2)
+    game.takeTurn(px, 0, 6)
+    game.takeTurn(po, 1, 0)
+    game.takeTurn(px, 3, 0)
+    game.takeTurn(po, 1, 1)
+    game.takeTurn(px, 3, 3)
+    game.takeTurn(po, 1, 2)
+    game.takeTurn(px, 3, 6)
+    game.takeTurn(po, 2, 0)
+    game.takeTurn(px, 6, 0)
+    game.takeTurn(po, 2, 1)
+    game.takeTurn(px, 6, 3)
+    game.takeTurn(po, 2, 2)
+    game.takeTurn(px, 6, 6)
+
+    game.isTurnValid(po, 8, 8) should be (true)
+
+
+  }
+
 
 }
