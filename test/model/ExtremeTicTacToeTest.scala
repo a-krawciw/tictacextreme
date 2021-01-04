@@ -122,6 +122,9 @@ class ExtremeTicTacToeTest extends AnyFlatSpec {
     game.takeTurn(px, 3, 3)
     game.takeTurn(po, 1, 2)
     game.takeTurn(px, 3, 6)
+
+    game.isTurnValid(po, 8, 8) should be (false)
+
     game.takeTurn(po, 2, 0)
     game.takeTurn(px, 6, 0)
     game.takeTurn(po, 2, 1)

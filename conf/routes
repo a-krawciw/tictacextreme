@@ -9,11 +9,6 @@ GET     /start/:gameName            controllers.GamesManager.joinGame(gameName: 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
-
 GET     /game/:gameName/ws          controllers.WebSocketController.socket(gameName: String)
 GET     /game/:gameName             controllers.GamesManager.showGame(gameName: String)
 GET     /game/:gameName/board       controllers.GamesManager.getBoard(gameName: String)
