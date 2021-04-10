@@ -30,13 +30,13 @@ class GamesManager @Inject() (cc: ControllerComponents)
       badForm => BadRequest(views.html.createGame(badForm)(messagesApi.preferred(request), request)),
       formData => {
         gameStore.addGame(formData.gameName, new ExtremeTicTacToe(3))
-        Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName))
+        Redirect(routes.GamesManager.showGame(formData.gameName)).withCookies(Cookie("playerName", formData.playerName.replace(" ", "%20")))
       })
   }
 
   def joinGame(name: String = "") = Action { implicit  request =>
     val pCookie = request.cookies.get("playerName")
-    val playerName = if (pCookie.isDefined) pCookie.get.value else ""
+    val playerName = if (pCookie.isDefined) pCookie.get.value.replace("%20", " ") else ""
     val preFilledForm = gameForm.fill(CreateData(name, playerName))
     Ok(views.html.createGame(preFilledForm)(messagesApi.preferred(request), request))
   }

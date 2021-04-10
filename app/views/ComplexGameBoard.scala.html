@@ -37,13 +37,15 @@
         </span>
         <span>
         @{
-            val gs = gameStore.getPlayers(game)
-            if(game.isNextPlayer(gs.x) && game.isNextPlayer(gs.o)){
-                "Press any square to begin"
-            } else if(game.isNextPlayer(gs.x))
-                "It is " + gs.x.name + "'s turn"
-            else
-                "It is " + gs.o.name + "'s turn"
+            if (!game.board.isFull) {
+                val gs = gameStore.getPlayers(game)
+                if(game.isNextPlayer(gs.x) && game.isNextPlayer(gs.o)) {
+                    "Press any square to begin"
+                } else if(game.isNextPlayer(gs.x))
+                    "It is " + gs.x.name + "'s turn"
+                else
+                    "It is " + gs.o.name + "'s turn"
+            }
         }
         </span>
         <span>

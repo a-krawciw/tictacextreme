@@ -5,6 +5,7 @@ import model.Filled.Filled
 trait TicTacToeGame {
   def hasWon: Boolean
   def hasLost: Boolean
+  def isComplete: Boolean
   def winner: Option[Filled]
   def isTurnValid(player: Player, row: Int, column: Int): Boolean
   def takeTurn(player: Player, row: Int, column: Int)

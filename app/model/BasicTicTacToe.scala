@@ -40,4 +40,6 @@ class BasicTicTacToe(dim: Int = 3) extends TicTacToeGame {
 
 
   override def registerListener(gameListener: GameListener): Unit = listeners = gameListener :: listeners
+
+  override def isComplete: Boolean = hasLost || hasWon
 }

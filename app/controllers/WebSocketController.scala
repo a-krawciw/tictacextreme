@@ -17,7 +17,7 @@ class WebSocketController @Inject()(cc: ControllerComponents)
   def socket(gameName: String) = WebSocket.accept[String, String] { request =>
     val game = gameStore.getGame(gameName).get
     ActorFlow.actorRef { out =>
-      MyWebSocketActor.props(out, game, gameStore.registerPlayer(request.cookies.get("playerName").get.value, game))
+      MyWebSocketActor.props(out, game, gameStore.registerPlayer(request.cookies.get("playerName").get.value.replace("%20", " "), game))
     }
   }
 
@@ -57,13 +57,11 @@ class MyWebSocketActor(out: ActorRef, ticTacToeGame: TicTacToeGame, player: Play
             out ! "Invalid move!"
           }
         } catch {
-          case e: java.text.ParseException => {
+          case e: java.text.ParseException =>
             e.printStackTrace()
             out ! "Parse error"
-          }
-          case _: NumberFormatException => {
+          case _: NumberFormatException =>
             out ! "Parse error"
-          }
         }
 
   }

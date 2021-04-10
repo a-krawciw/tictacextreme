@@ -14,6 +14,8 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
 
   override def hasLost: Boolean = !hasWon && board.isFull
 
+  override def isComplete: Boolean = hasWon || hasLost
+
   override def winner: Option[Filled] = board.winner
 
   override def isTurnValid(player: Player, row: Int, column: Int): Boolean = {
@@ -76,4 +78,5 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
     fullBoard
       .map(row => row.mkString("[", "|", "]")).mkString("\n")
   }
+
 }
