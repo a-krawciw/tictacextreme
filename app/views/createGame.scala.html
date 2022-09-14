@@ -4,8 +4,22 @@
 @(webForm: Form[CreateData])(implicit messages: Messages, request: RequestHeader)
 
 @main("Create game") {
+    <h1 class="centered">
+        Welcome to Tic Tac Extreme.
+    </h1>
+    <div class="centered">To create a new game room enter any word to the game name.
+        </div>
+    <div class="centered">
+        Next add your own name. </div>
+    <div class="centered">
+        If two players join the same room,
+        they will play each other.</div>
+
+    <div class="centered">Have Fun!</div>
 
     <section class="centered">
+
+
     <div class="card">
     @helper.form(action = routes.GamesManager.createGame()) {
         @CSRF.formField

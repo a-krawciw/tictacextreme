@@ -64,7 +64,7 @@ class ExtremeTicTacToe(val dim: Int) extends TicTacToeGame {
     Array.tabulate(dim*dim, dim*dim)((i, j) => innerBoards(i / dim)(j / dim).cell(i % dim, j % dim))
   }
 
-  def isSquareValid(row: Int, col: Int): Boolean = prev_loc == START || (row/dim, col/dim) == prev_loc
+  def isSquareValid(row: Int, col: Int): Boolean = (prev_loc == START || (row/dim, col/dim) == prev_loc) && !isComplete
 
   def isSquareClaimed(row: Int, col: Int): Boolean = board.cell(row / dim, col / dim).isFilled
 
